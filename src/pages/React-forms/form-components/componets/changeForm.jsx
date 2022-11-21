@@ -9,7 +9,6 @@ function ChangeForm({ task, id, arrayConst, setarray }) {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(arrayConst);
     const newAray = [...arrayConst];
     newAray.map((array, i) => {
       id === array.id ? (array.name = data.name) : array;
