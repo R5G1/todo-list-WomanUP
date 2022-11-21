@@ -3,53 +3,56 @@ import { useForm } from 'react-hook-form';
 import PageInfo from './componets/PageInfo';
 import './form-style.scss';
 
+/**
+ * 1
+ * form to fill in
+ * saving the array in localStorage
+ */
+
 function FormContainer() {
-  const [arrayConst, setarrayConst] = useState([]);
+  const keyLocal = JSON.parse(localStorage.getItem('array'));
+
+  const [arrayConst, setarrayConst] = useState(keyLocal ? keyLocal : []);
 
   const [btnClick, setBtnClick] = useState(false);
 
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit, resetField, watch } = useForm();
 
-  const [image, setImage] = useState('');
-
-  const convert2base64 = (file) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImage(reader.result.toString());
-    };
-    reader.readAsDataURL(file);
-  };
+  useEffect(() => {
+    localStorage.setItem('array', JSON.stringify(arrayConst));
+  }, [arrayConst]);
 
   function onSubmit(data, e) {
-    // setarrayConst([...arrayConst, data]);
+    setarrayConst([...arrayConst, data]);
 
-    if (data.files.length > 0) {
-      convert2base64(data.files[0]);
-    }
-
-    const file = data.image[0];
-    const storageRef = app.storage().ref();
-    const fileRef = storageRef.child(file.name);
-    fileRef.put(file).then(() => {
-      console.log('Uploaded a file');
+    const newAray = [...arrayConst, data];
+    newAray.map((item) => {
+      if (item.id.length < 7) item.id = item.id + Date.now().toString();
     });
-    // const newAray = [...arrayConst, data];
-    // newAray.map((item) => {
-    //   if (item.id.length < 7) item.id = item.id + Date.now().toString();
-    // });
-    // setarrayConst(newAray);
-    // e.target.reset();
+    setarrayConst(newAray);
+    resetField('title');
+    resetField('name');
   }
-
   return (
     <div>
       <div className="conteiner">
-        {image ? <img src={image} width="450" /> : null}
         <form className="form-main" onSubmit={handleSubmit(onSubmit)}>
           <div className="form-main__container">
             <div className="form-main__input-content">
               <label className="form-main__label-input">
                 Название задачи:
+                <input
+                  required
+                  className="form-main__input-text"
+                  type="text"
+                  {...register('title')}
+                  placeholder="Название"
+                />
+              </label>
+            </div>
+            <div className="form-main__input-content">
+              <label className="form-main__label-input">
+                Описание:
                 <input
                   required
                   className="form-main__input-text"
@@ -73,21 +76,17 @@ function FormContainer() {
                 />
               </label>
             </div>
-            {!watch('files') || watch('files').length === 0 ? (
-              <div className="form-main__input-content">
-                <label className="form-main__label-input">
-                  Загрузка файла:
-                  <input
-                    className="form-main__input-text"
-                    name="image"
-                    type="file"
-                    {...register('files')}
-                  />
-                </label>
-              </div>
-            ) : (
-              <p>{watch('files')[0].name}</p>
-            )}
+            <div className="form-main__input-content">
+              <label className="form-main__label-input">
+                Загрузка файла:
+                <input
+                  className="form-main__input-text"
+                  name="image"
+                  type="file"
+                  {...register('files')}
+                />
+              </label>
+            </div>
             <div className="form-main__input-content" style={{ display: 'none' }}>
               <label className="form-main__label-input">
                 <input
