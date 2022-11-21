@@ -6,13 +6,12 @@ import './form-style.scss';
 /**
  * 1
  * form to fill in
- * saving the array in localStorage
  */
 
 function FormContainer() {
   const keyLocal = JSON.parse(localStorage.getItem('array'));
 
-  const [arrayConst, setarrayConst] = useState(keyLocal ? keyLocal : []);
+  const [arrayConst, setarrayConst] = useState([]);
 
   const [btnClick, setBtnClick] = useState(false);
 
