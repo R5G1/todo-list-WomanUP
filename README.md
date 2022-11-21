@@ -1,10 +1,10 @@
-# Food-delivery
+# todo-list-WomanUP
 
-#link: https://r5g1-food-delivery.netlify.app/
+#link: https://r5g1-todo-list-womanup.netlify.app/
 
-#us: HTML, SCSS, SCSS-module, React, TypeScript, Webpack
+#us: HTML, SCSS, React, Webpack
 
-![Screenshot 2022-08-20 155920](https://user-images.githubusercontent.com/71373383/185747266-1bc22055-db4d-403f-adf0-f539042b5e4f.png)
+![Screenshot 2022-11-21 130315](https://user-images.githubusercontent.com/71373383/203024673-35d017e2-300b-4ea7-90e7-8a6c03b2c531.png)
 
 # Getting Started with Create React App
 
